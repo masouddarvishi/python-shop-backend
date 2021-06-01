@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Product(models.Model):
-    pk = 'id'
     slug = models.SlugField(max_length=255, unique=True)
     title = models.SlugField(max_length=255)
     description = models.TextField(max_length=500, blank=True)
