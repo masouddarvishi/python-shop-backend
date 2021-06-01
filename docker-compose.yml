@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  app:
+    container_name: django-shop-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+    command: >
+      sh -c 'python manage.py runserver 0.0.0.0:8000'
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - django-shop-network
+
+  db:
+    container_name: django-shop-db
+    image: postgres:13.2-alpine
+    volumes:
+        - db_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - django-shop-network
+    ports:
+      - 5432:5432
+
+  adminer:
+    container_name: django-shop-pm
+    image: adminer
+    environment:
+      - ADMINER_DEFAULT_SERVER=${DB_HOST}
+      - ADMINER_DEFAULT_DB_NAME=${POSTGRES_DB}
+      - ADMINER_DEFAULT_DB_DRIVER=pgsql
+      - ADMINER_PASSWORD=${POSTGRES_PASSWORD}
+      - ADMINER_USERNAME=${POSTGRES_USER}
+      - ADMINER_AUTOLOGIN=1
+
+    depends_on:
+      - db
+    ports:
+      - 7000:8080
+    networks:
+      - django-shop-network
+networks:
+  django-shop-network:
+    driver: bridge
+volumes:
+  db_data: { }
