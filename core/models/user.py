@@ -3,18 +3,19 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, mobile, password, **kwargs):
+    def create_user(self, email, password, **kwargs):
+
         user = self.model(
-            mobile=self.normalize_mobile(mobile),
+            email=self.normalize_email(email),
             **kwargs)
         user.set_password(password)
         user.save()
 
         return user
 
-    def create_superuser(self, password, mobile):
+    def create_superuser(self, password, email):
         user = self.model(
-            mobile=self.normalize_mobile(mobile),
+            email=self.normalize_email(email),
             is_staff=True,
             is_superuser=True)
 
@@ -37,15 +38,15 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=255, unique=True, null=True)
-    mobile = models.BigIntegerField(unique=True)
+    email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=30, null=False)
+    api_token = models.TextField(max_length=200, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'mobile'
+    USERNAME_FIELD = 'email'
 
     class Meta:
         db_table = 'users'
