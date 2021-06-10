@@ -1,1 +1,0 @@
-from .productViews import ProductView
