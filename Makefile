@@ -11,4 +11,4 @@ super-user:
 	docker-compose run --rm app sh -c 'python manage.py createsuperuser'
 
 test:
-	docker-compose run --rm app sh -c 'python manage.py test $($1)'
+	docker-compose run --rm app sh -c 'python manage.py test'

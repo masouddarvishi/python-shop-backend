@@ -1,22 +1,23 @@
-from django.contrib.auth import get_user_model
-from django.urls import reverse
-from django.test import TestCase
-
-from rest_framework import status
-from rest_framework.test import APIClient
+from django.urls import reverse, path
+from vendor.tests.baseTest import BaseTest
 
 
-class AuthApiTest(TestCase):
-    def setUp(self) -> None:
-        self.client = APIClient()
-        self.user = get_user_model().objects.create_user(
-            email='test@gmail.com',
-            password='123456'
-        )
+class test:
+    @staticmethod
+    def a(self):
+        pass
 
-        self.client.force_authenticate(self.user)
 
+
+
+
+class AuthApiTest(BaseTest):
     def test_login_user(self):
-        print(reverse('user:auth.login'))
-        print('sdf')
+        user = self.create_user()
+        print(user.__dict__)
+
+    def test_logout_user(self):
+        pass
+
+    def test_reset_password_user(self):
         pass

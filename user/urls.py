@@ -5,7 +5,7 @@ from .views import authView, userView
 app_name = 'user'
 
 router = routers.DefaultRouter()
-router.register(r'users', userView.UserController, basename='users')
+router.register('users', userView.UserController, basename='users')
 
 urlpatterns = [
     # auth routes
