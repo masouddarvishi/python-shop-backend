@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from core.models.user import User
-from vendor.facades.repositories.userReposiory import UserRepository
+from user.respositories.userReposiory import UserRepository
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserRepository().get_model()
-        fields = ('email', 'password', 'name', 'is_staff')
+        fields = ('email', 'password', 'name', 'api_token', 'is_staff', 'is_active', 'last_login', 'is_superuser')
         extra_kwargs = {
             'password': {
                 'write_only': True,

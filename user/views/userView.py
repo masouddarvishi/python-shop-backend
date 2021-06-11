@@ -1,10 +1,8 @@
-from rest_framework.parsers import JSONParser
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.response import Response
-from rest_framework import generics, authentication, permissions
+from rest_framework import authentication
 
 from ..serializers import userSerializer
-from vendor.facades.repositories.userReposiory import UserRepository
+from user.respositories.userReposiory import UserRepository
 
 
 class UserController(ModelViewSet):
