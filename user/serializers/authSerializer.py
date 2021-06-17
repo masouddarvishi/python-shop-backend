@@ -24,6 +24,7 @@ class AuthSerializer(serializers.Serializer):
                 'message': 'user not found'
             })
 
+        # get user info and update api_token key
         attrs['user'] = user_repo.update_object(instance=user, api_token=get_random_string(length=256))
 
         return attrs

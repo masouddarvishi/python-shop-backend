@@ -6,12 +6,9 @@ app_name = 'user'
 
 router = routers.DefaultRouter()
 router.register('users', userView.UserController, basename='users')
+router.register('auth', authView.AuthController, basename='auth')
 
 urlpatterns = [
-    # auth routes
-    path('auth/login', authView.AuthController.as_view({'post': 'login'}), name='auth.login'),
-    path('auth/register', authView.AuthController.register, name='auth.register'),
-
     # user routes
-    path('',  include(router.urls)),
+    path('', include(router.urls)),
 ]
