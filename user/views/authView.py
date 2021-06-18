@@ -33,5 +33,6 @@ class AuthController(viewsets.ModelViewSet):
 
     @action(methods=['get'], url_path='user', detail=False)
     def user(self, request):
-        raise Exception('route founded')
-        return Response(request.headers)
+        raise Exception(request.user.name)
+
+        return Response(UserSerializer(request.user).data)
