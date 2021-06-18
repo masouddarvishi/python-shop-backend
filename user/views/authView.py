@@ -11,7 +11,7 @@ from ..serializers.userSerializer import UserSerializer
 class AuthController(viewsets.ModelViewSet):
     serializer_class = AuthSerializer
 
-    @action(methods=['POST'], url_path='login', detail=False, authentication_classes=(), permission_classes=())
+    @action(methods=['POST'], url_path='login', detail=False, authentication_classes=[], permission_classes=[])
     def login(self, request, *args, **kwargs):
         """ login user by email and password """
 
@@ -22,16 +22,16 @@ class AuthController(viewsets.ModelViewSet):
 
         return Response(UserSerializer(serializer.validated_data['user']).data)
 
-    @action(methods=['POST'], url_path='register', detail=False, authentication_classes=(), permission_classes=())
+    @action(methods=['POST'], url_path='register', detail=False, authentication_classes=[], permission_classes=[])
     def register(self, request, *args, **kwargs):
         raise Exception('register founded')
         pass
 
-    @action(methods=['POST'], url_path='register', detail=False, authentication_classes=(), permission_classes=())
-    def reset_password(self):
-        pass
+    # @action(methods=['POST'], url_path='/register', detail=False, authentication_classes=(), permission_classes=())
+    # def reset_password(self):
+    #     pass
 
     @action(methods=['get'], url_path='user', detail=False)
-    def auth(self, request):
+    def user(self, request):
         raise Exception('route founded')
         return Response(request.headers)
