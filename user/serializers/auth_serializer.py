@@ -1,7 +1,7 @@
 from django.utils.crypto import get_random_string
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
 
-from rest_framework import serializers, exceptions
+from rest_framework import serializers, exceptions, status
 
 from user.respositories.userReposiory import UserRepository
 
@@ -22,15 +22,14 @@ class AuthSerializer(serializers.Serializer):
 
         # user with requested email exists.
         if user is None:
-            raise serializers.ValidationError({
-                'message': 'user not found'
-            })
+            raise exceptions.ParseError({'message': 'user not found.'})
+
+        if not user.is_active:
+            raise exceptions.ParseError({'message': 'user is not active.'})
 
         # check user password.
         if not PBKDF2PasswordHasher().verify(attrs['password'], user.password):
-            raise serializers.ValidationError({
-                'message': 'user not found'
-            })
+            raise exceptions.ParseError({'message': 'user not found.'})
 
         # get user info and update api_token key
         attrs['user'] = user_repo.update_object(instance=user, api_token=get_random_string(length=256))

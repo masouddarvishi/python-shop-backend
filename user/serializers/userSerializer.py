@@ -12,11 +12,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserRepository().get_model()
-        fields = ('email', 'password', 'name', 'api_token', 'is_staff', 'is_active', 'last_login', 'is_superuser')
+        fields = ('id', 'email', 'password', 'name', 'api_token', 'is_staff', 'is_active', 'last_login', 'is_superuser')
         extra_kwargs = {
             'password': {
                 'write_only': True,
                 'min_length': 6,
                 'style': {'input_type': 'password'}
+            },
+            'id': {
+                'read_only': True
             },
         }

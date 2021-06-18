@@ -1,15 +1,14 @@
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
-from django.contrib.auth import get_user_model
 
 from rest_framework import exceptions
 from django.utils.translation import ugettext_lazy as _
 
 from user.respositories.userReposiory import UserRepository
 
-from vendor.providers.base_provider import BaseProvider
+from vendor.providers.auth.base_auth_provider import BaseAuthProvider
 
 
-class TokenAuthentication(BaseAuthentication, BaseProvider):
+class TokenAuthentication(BaseAuthentication, BaseAuthProvider):
     keyword = 'Bearer'
 
     def authenticate(self, request):

@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.utils.crypto import get_random_string
 
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, name='user_', **kwargs):
         user = self.model(
             email=self.normalize_email(email),
-            name='user_' + self.normalize_email(email),
+            name=name + (self.normalize_email(email).split('@')[0]),
+            api_token=get_random_string(length=256),
             **kwargs)
         user.set_password(password)
         user.save()

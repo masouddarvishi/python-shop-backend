@@ -1,8 +1,10 @@
 from rest_framework import exceptions
 
 
-class BaseProvider:
+class BaseAuthProvider:
     def validate_header(self, auth):
+        """ validate token and decode token """
+
         # validate token
         if len(auth) == 1:
             msg = _('Invalid token header. No credentials provided.')

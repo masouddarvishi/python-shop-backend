@@ -11,11 +11,12 @@ class BaseTest(TestCase):
         self.client = APIClient()
 
     # create user
-    def create_user(self, email='test@gmail.com', password='123456') -> User:
+    def create_user(self, email='test@gmail.com', password='123456', **kwargs) -> User:
         return get_user_model().objects.create_user(
             email=email,
             password=password,
-            name='user_' + email
+            name='user_' + email,
+            **kwargs
         )
 
     # login provided user or create and login user
@@ -23,5 +24,5 @@ class BaseTest(TestCase):
         if user is None:
             user = self.create_user()
 
-        self.client.force_authenticate(user)
+        self.client.force_authenticate(user=user, token=user.api_token)
         return user;
