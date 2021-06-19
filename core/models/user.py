@@ -4,10 +4,10 @@ from django.utils.crypto import get_random_string
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password, name='user_', **kwargs):
+    def create_user(self, email, password, name='', **kwargs):
         user = self.model(
             email=self.normalize_email(email),
-            name=name + (self.normalize_email(email).split('@')[0]),
+            name=name,
             api_token=get_random_string(length=256),
             **kwargs)
         user.set_password(password)
@@ -15,11 +15,11 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, password, email):
+    def create_superuser(self, password, email, name=''):
         return self.create_user(
             email=self.normalize_email(email),
             password=password,
-            name='admin_',
+            name=name,
             is_staff=True,
             is_superuser=True)
 

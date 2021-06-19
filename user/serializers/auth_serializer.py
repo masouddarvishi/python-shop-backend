@@ -20,12 +20,13 @@ class AuthSerializer(serializers.Serializer):
         user_repo = UserRepository()
         user = user_repo.find_via_email(attrs['email'])
 
-        # user with requested email exists.
+        # check if user with requested email exists.
         if user is None:
             raise exceptions.ParseError({'message': 'user not found.'})
 
+        # check if user is active.
         if not user.is_active:
-            raise exceptions.ParseError({'message': 'user is not active.'})
+            raise exceptions.PermissionDenied({'message': 'user is not active.'})
 
         # check user password.
         if not PBKDF2PasswordHasher().verify(attrs['password'], user.password):

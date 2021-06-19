@@ -47,4 +47,4 @@ class AuthFailTest(BaseTest):
         payload = {'email': 'test@gmail.com', 'password': '123456'}
         res = self.client.post(LOGIN_URL, payload)
 
-        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
