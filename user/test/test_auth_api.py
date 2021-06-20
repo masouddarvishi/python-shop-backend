@@ -6,7 +6,9 @@ from rest_framework import status
 from vendor.tests.baseTest import BaseTest
 
 LOGIN_URL = reverse('user:auth-login')
+REGISTER_URL = reverse('user:auth-login')
 AUTH_USER_URL = reverse('user:auth-user')
+RESET_PASSWORD_URL = reverse('user:auth-reset')
 
 
 class AuthApiTest(BaseTest):
@@ -25,6 +27,13 @@ class AuthApiTest(BaseTest):
         res = self.client.get(AUTH_USER_URL)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data['email'], user.email)
+
+    def test_register_user_receive_token(self):
+        payload = {'email': 'test@gmail.com'}
+        pass
+
+    # def test_register_user_send_token_and_registration_data(self):
+    #     pass
 
 
 class AuthFailTest(BaseTest):
